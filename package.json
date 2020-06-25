@@ -1,12 +1,14 @@
 {
-  "name": "seans-typescript-nodejs-crud-rest-api-boilerplate",
+  "name": "user_distance_api",
   "version": "1.0.1",
   "description": "",
   "main": "server.js",
   "scripts": {
     "start": "tsc && node dist/server.js",
     "build": "tsc",
-    "dev": "concurrently --kill-others \"tsc -w\" \"nodemon dist/server.js\""
+    "dev": "concurrently --kill-others \"tsc -w\" \"nodemon dist/server.js\"",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "keywords": [
     "typescript",
@@ -15,7 +17,7 @@
     "rest",
     "swagger"
   ],
-  "author": "Sean Bradley",
+  "author": "Harriet Peel",
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.17.6",
@@ -25,11 +27,14 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "swagger-ui-express": "^4.1.4",
-    "typescript": "3.3.3333",
+    "typescript": "^3.9.5",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.3",
     "concurrently": "^2.2.0",
-    "nodemon": "^2.0.4"
+    "jest": "^26.1.0",
+    "nodemon": "^2.0.4",
+    "ts-jest": "^26.1.1"
   }
 }
