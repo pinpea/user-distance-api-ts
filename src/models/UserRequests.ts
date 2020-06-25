@@ -41,28 +41,29 @@ abstract class UserRequest{
 
 
     getAllUsers = () => this.reqInstance.get<User[]>(this._req_url);
-    protected async getPromisedUsers(){
-        var promised_users = this.getAllUsers();
-        promised_users.then(value =>{
+    
+    async getPromisedUsers(){
+
+        const data = await this.getAllUsers().then(value =>{
             var all_users = value.data;
             let filtered_users: User[] = this.filterUsers(all_users);
             return filtered_users;
         
         });
+
+        return data;
     }
 
     protected setRelevantUsers(relevant_users: User[]){
         this._relevant_users = relevant_users;
     };
 
-    public getUsers(){
-        console.log("get users");
+    public getUsers = async () => {
         if (this._relevant_users){
             return this._relevant_users;
         }
         else{
-            const filtered_users = new Promise<>this.getPromisedUsers().then(returned_users => console.log(filtered_users));
-            
+            const filtered_users = await this.getPromisedUsers();
             return filtered_users;
         }
     }
@@ -87,7 +88,6 @@ class CityUsersRequest extends UserRequest{
     //return array of users in city
     protected filterUsers(all_users): User[]{
         let relevant_users : User[] = all_users;
-        console.log(relevant_users[0])
         this.setRelevantUsers (relevant_users);
         return relevant_users;
     }
@@ -108,15 +108,15 @@ class UsersInRangeRequest extends UserRequest{
  
     protected filterUsers(all_users): User[]{
         
-        let relevant_users : User[] ;
-        console.log(all_users[0])
+        let relevant_users : User[] = [];
 
         for (let current_user in all_users){
-            var temp_lat_long : LatLong = {latitude: all_users[current_user].latitude, longitude: all_users[current_user].longitude};
+            var i: number = Number(current_user)
+            var temp_lat_long : LatLong = {latitude: all_users[i].latitude, longitude: all_users[i].longitude};
             var dist = haversine_distance( this._lat_long_ref_city, temp_lat_long );                
             if (dist <= this._range){
-                relevant_users.push(all_users[current_user])
-                all_users[current_user].distance = dist;
+                relevant_users.push(all_users[i])
+                all_users[i].distance = dist;
             }
         }
         this.setRelevantUsers (relevant_users);
@@ -135,13 +135,13 @@ class CombinedUsers{
         this.UsersNearCity = new UsersInRangeRequest(url, city);
         
     }
-
-    getUsers(){
-        console.log("users in city ");
-        var users_in_city = this.CityUsers.getUsers();
+    
+    
+    public getUsers = async () => {
+        var users_in_city = await this.CityUsers.getUsers();
         
-        var users_near_city = this.UsersNearCity.getUsers();
-        console.log("users near city ");
+        var users_near_city = await this.UsersNearCity.getUsers();
+        console.log("users near city ", users_in_city.length + users_near_city.length );
         return users_in_city.length + users_near_city.length;
     }
 

@@ -15,15 +15,14 @@ class Router {
         })
 
         //get users in a specified range of London
-        router.get('/london_users/:range', (req: express.Request, res: express.Response) => {
+        router.get('/london_users/:range', async (req: express.Request, res: express.Response) => {
             try{
                 let search_radius = req.params.range;
                 let london_coordinates: LatLong = {latitude: 51.506, longitude: -0.1272};
                 let london = new City('London', london_coordinates, search_radius);
 
                 let londonUsers = new CombinedUsers(london);
-                var num_users = londonUsers.getUsers();
-                console.log(num_users);
+                const num_users =  await londonUsers.getUsers();
 
                 res.json({
                     "out": num_users
@@ -35,25 +34,9 @@ class Router {
 
 
         })
-        // router.options('*', cors());
 
         server.use('/', router)
     }
 }
-
-        // //create new cat
-        // router.post('/cats', cors(), (req: express.Request, res: express.Response) => {
-        //     try {
-        //         let cat: Cat = {} as Cat;
-        //         Object.assign(cat, req.body)
-        //         const newUUID = uuid();
-        //         cats[newUUID] = cat;
-        //         res.json({
-        //             uuid: newUUID
-        //         })
-        //     } catch (e) {
-        //         res.status(400).send(JSON.stringify({ "error": "problem with posted data" }));
-        //     }
-        // })
 
 export default Router;
