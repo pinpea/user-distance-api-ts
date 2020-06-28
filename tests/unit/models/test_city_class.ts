@@ -84,9 +84,7 @@ test( 'Check 404 Response Error handling ', async () => {
     }
     catch ( error ) {
         if ( error.response ) {
-            // expect(error.response.status)
             expect( error.response.status ).toBe( 404 );
-            // console.log( 'response test 1', error.response );
             return;
         }
         if ( error.request ) {

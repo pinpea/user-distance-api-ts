@@ -1,0 +1,49 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": " ",
+    "version": "1.0.0",
+    "title": "Filter users by distance API",
+    "contact": {
+      "email": "pinpea@protonmail.com"
+    }
+  },
+  "host": "localhost:3100",
+  "basePath": "/",
+  "paths": {
+    "/london_users/{range}": {
+      "get": {
+        "tags": [
+          "user_distance"
+        ],
+        "summary": "Get users in London",
+        "description": "Request all users from the bptds test app API that are listed as living in London, or whose current location is within 50 miles of London.",
+        "operationId": "getLondonUsers",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "range \n(miles)",
+            "description": "Search radius in miles. Used to filter users within this distance of London. \n A range of 0 miles returns just users listed as living in London",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Number of users found"
+          },
+          "404": {
+            "description": "Request for users invalid"
+          },
+          "500": {
+            "description": "Internal error"
+          }
+        }
+      }
+    }
+  }
+}

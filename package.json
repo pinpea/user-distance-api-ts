@@ -4,8 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "tsc && node dist/server.js",
+    "start": "tsc && node dist/src/server.js",
     "build": "tsc",
+    "tsc": "tsc",
     "dev": "concurrently --kill-others \"tsc -w\" \"nodemon dist/server.js\"",
     "test": "jest",
     "test:watch": "jest --watch"
@@ -20,9 +21,13 @@
   "author": "Harriet Peel",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "@babel/preset-typescript": "^7.10.1",
     "@types/express": "^4.17.6",
-    "@types/node": "^13.13.12",
+    "@types/node": "^12.12.31",
     "axios": "^0.19.2",
+    "babel-jest": "^26.1.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",

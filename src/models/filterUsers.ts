@@ -1,6 +1,0 @@
-
-// const filterUsersByDistance( string: users[], ) =>{
-
-
-
-// }
