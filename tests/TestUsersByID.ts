@@ -9,7 +9,6 @@ declare module 'axios' {
 
 class CityUsersByIdRequester {
     protected readonly reqInstance: AxiosInstance;
-    private _request_url: string = '';
     protected _relevant_users: User[];
     private _root_url: string;
     private _users_in_city: User[];
@@ -49,25 +48,35 @@ class CityUsersByIdRequester {
         } );
 
         let relevant_users = await Promise.all( promises );
+        this.setRelevantUsers( relevant_users );
 
         return relevant_users;
 
     };
-
 
     protected setRelevantUsers( relevant_users: User[] ) {
         this._relevant_users = relevant_users;
     };
 
     public getUsers = async () => {
-        let filtered_users = await this.loopPromisedUsers();
-        return filtered_users;
+        if ( this._relevant_users ) {
+            return this._relevant_users;
+        }
+        else {
+            let filtered_users = await this.loopPromisedUsers();
+            return filtered_users;
+        }
+
 
     };
     public getNumUsers = async () => {
-        let filtered_users = await this.loopPromisedUsers();
-        return filtered_users.length;
-
+        if ( this._relevant_users ) {
+            return this._relevant_users.length;
+        }
+        else {
+            let filtered_users = await this.loopPromisedUsers();
+            return filtered_users.length;
+        }
     };
 
 }

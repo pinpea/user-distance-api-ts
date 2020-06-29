@@ -1,10 +1,8 @@
-import User from "./User";
-// import {Type, plainToClass} from "class-transformer";
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import calculateHaversineDistance from "./haversine";
 import LatitudeLongitude from './Coordinates';
 import City from "./City";
-
-import calculateHaversineDistance from "./haversine";
+import User from "./User";
 
 declare module 'axios' {
     interface AxiosResponse<T = any> extends Promise<T> { }
@@ -131,6 +129,7 @@ class UsersInRangeRequester extends UserRequester {
 class CombinedUsers {
     private _users_in_city: any;
     private _users_near_city: any;
+    private _relevant_users: User[];
 
     public constructor( city: City, url: string = 'https://bpdts-test-app.herokuapp.com/' ) {
         this._users_in_city = new CityUsersRequester( url, city );
@@ -139,6 +138,7 @@ class CombinedUsers {
     }
 
     private getPromisedUsers = async () => {
+        // combine unique users listed in city and within a requested distance of the city
         const users_in_city = await this._users_in_city.getRelevantUsers();
         const users_near_city = await this._users_near_city.getRelevantUsers();
         let relevant_users: User[];
@@ -152,6 +152,9 @@ class CombinedUsers {
             relevant_users = users_in_city.concat( users_near_city );
         }
         let unique_users = this.removeDuplicateUsers( relevant_users );
+
+        this.setRelevantUsers( unique_users );
+
         return unique_users;
     };
 
@@ -166,17 +169,34 @@ class CombinedUsers {
             let matched_user = users.find( current_user => current_user.id === id );
             unique_users.push( matched_user );
         } );
+
         return unique_users;
     }
 
+    protected setRelevantUsers( relevant_users: User[] ) {
+        this._relevant_users = relevant_users;
+    };
+
     public getNumberOfUsers = async () => {
-        let users = await this.getPromisedUsers();
-        return users.length;
+        if ( this._relevant_users ) {
+            return this._relevant_users.length;
+        }
+        else {
+            let users = await this.getPromisedUsers();
+            return users.length;
+        }
+
     };
 
     public getUsers = async () => {
-        let users = await this.getPromisedUsers();
-        return users;
+        if ( this._relevant_users ) {
+            return this._relevant_users;
+        }
+        else {
+            let users = await this.getPromisedUsers();
+            return users;
+        }
+
     };
 
 }

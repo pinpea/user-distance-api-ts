@@ -43,6 +43,7 @@ To run the unit tests (with the demo running - use another terminal window):
 npm run test
 ```
 
+Note: `connect ECONNREFUSED 127.0.0.1:3100` error will be returned from unit tests if demo is not running.
 
 ## Using the Swagger API GUI
 

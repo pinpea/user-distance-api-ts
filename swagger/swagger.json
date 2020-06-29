@@ -35,10 +35,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Number of users found"
+            "description": "Number of users in the requested city"
           },
           "404": {
-            "description": "Request for users invalid"
+            "description": "No users found in requested city"
           },
           "500": {
             "description": "Internal error"
@@ -51,7 +51,7 @@
         "tags": [
           "user_distance"
         ],
-        "summary": "Get users in Bristol - Used for testing swagger 404 exception",
+        "summary": "Get users in Bristol - Used for testing swagger 404 handling",
         "description": "Request all users from the bptds test app API that are listed as living in Bristol, or whose current location is within 50 miles of Bristol.",
         "operationId": "getBristolUsers",
         "produces": [

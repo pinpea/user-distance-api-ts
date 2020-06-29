@@ -17,16 +17,16 @@ describe( 'Test api methods', () => {
     } );
 
     test( 'Test coordinate interface ', function () {
-        let temp_var = 47.4979;
-        expect( temp_var ).toBe( city_cordinates.latitude );
+        let expected_latitude = 47.4979;
+        expect( expected_latitude ).toBe( city_cordinates.latitude );
 
     } );
 
     test( 'Test search_radius conversion ', function () {
         let search_radius: any = '0';
         const test_city = new City( 'Budapest', city_cordinates, search_radius );
-        let output_search_radius = test_city.searchRadius;
-        expect( typeof output_search_radius ).toBe( 'number' );
+        let expected_search_radius = test_city.searchRadius;
+        expect( typeof expected_search_radius ).toBe( 'number' );
 
     } );
 
@@ -42,18 +42,25 @@ describe( 'Test api methods', () => {
     } );
 
     test( 'Return users by city name - search_radius = 0 ', async () => {
-        let test_combined_users = new CombinedUsers( test_city );
-        let num_output_users = await test_combined_users.getNumberOfUsers();
-        expect( num_output_users ).toEqual( 2 ); // not by code, but by design - specific test case chosen
+        let TestUsers = new CombinedUsers( test_city );
+        let expected_number_users = await TestUsers.getNumberOfUsers();
+        expect( expected_number_users ).toEqual( 2 ); // not by code, but by design - specific test case chosen
     } );
 
+    test( 'Return users by city name - call getNumberOfUsers twice ', async () => {
+        let TestUsers = new CombinedUsers( test_city );
+        let expected_number_users = await TestUsers.getNumberOfUsers();
+        let expected_number_users_2 = await TestUsers.getNumberOfUsers();
+        expect( expected_number_users ).toEqual( expected_number_users_2 ); // not by code, but by design - specific test case chosen
+
+    } );
 
     test( 'Get users and check the city matches the output when calling bptds with /user/{id} ', async () => {
 
-        let budapest_users = new CombinedUsers( test_city );
-        const users = await budapest_users.getUsers();
-        let inst_idreq = new CityUsersByIdRequester( users ); // class created to test this functionality
-        let users_by_id = await inst_idreq.getUsers();
+        let TestUsers = new CombinedUsers( test_city );
+        const users = await TestUsers.getUsers();
+        let IdReq = new CityUsersByIdRequester( users ); // class created to test functionality of calling bptds with returned user id to check city 
+        let users_by_id = await IdReq.getUsers();
 
         users_by_id.forEach( user => {
             expect( user[ 'city' ] ).toEqual( test_city.cityName );
@@ -68,18 +75,18 @@ describe( 'Test api methods', () => {
 
 
     test( 'Return unique users by distance from city ', async () => {
-        let test_combined_users = new CombinedUsers( test_city );
-        let num_output_users = await test_combined_users.getNumberOfUsers();
+        let TestUsers = new CombinedUsers( test_city );
+        let expected_number_users = await TestUsers.getNumberOfUsers();
         // if filtering for unique users is not working, four users will be returned in this case
-        expect( num_output_users ).toEqual( 2 ); // not by code, but by design - specific test case chosen
+        expect( expected_number_users ).toEqual( 2 ); // not by code, but by design - specific test case chosen
     } );
 
 
     test( 'Check 404 Response Error handling ', async () => {
         try {
             let junk_url: string = 'https://bpdts-test-app.herokuapp.com/usr/';
-            let test_combined_users = new CombinedUsers( test_city, junk_url );
-            let num_output_users = await test_combined_users.getNumberOfUsers();
+            let TestUsers = new CombinedUsers( test_city, junk_url );
+            let expected_number_users = await TestUsers.getNumberOfUsers();
         }
         catch ( error ) {
             expect( error.response.status ).toBe( 404 );
@@ -90,8 +97,8 @@ describe( 'Test api methods', () => {
     test( 'Check Request Error handling ', async () => {
         try {
             let junk_url: string = 'https://bpdts-test-appherokuappcom/';
-            let test_combined_users = new CombinedUsers( test_city, junk_url );
-            let num_output_users = await test_combined_users.getNumberOfUsers();
+            let TestUsers = new CombinedUsers( test_city, junk_url );
+            let num_output_users = await TestUsers.getNumberOfUsers();
         }
         catch ( error ) {
             expect( error.request );
