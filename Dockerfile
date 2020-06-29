@@ -14,9 +14,7 @@ WORKDIR /nodejs
 
 RUN npm install
 RUN npx tsc -p /nodejs
-RUN ls /nodejs/dist
 
 EXPOSE 3100:3100
 
 CMD ["npm", "start"]
-# CMD [ "npx tsc && node dist/server.js" ]
