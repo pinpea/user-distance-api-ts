@@ -7,7 +7,7 @@ module.exports = {
     "**/tests/**/*.+(ts|tsx|js)",
     "**/?(*.)+(spec|test).+(ts|tsx|js)" ],
   testPathIgnorePatterns: [
-    "<rootDir>/tests/unit/models/TestUser.ts",
+    "<rootDir>/tests/TestUsersByID.ts",
     "<rootDir>/dist/"
   ]
 

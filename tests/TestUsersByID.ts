@@ -1,6 +1,6 @@
 
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import User from '../../../src/models/User';
+import User from '../src/models/User';
 
 
 declare module 'axios' {

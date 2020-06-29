@@ -28,7 +28,8 @@
             "in": "path",
             "name": "range \n(miles)",
             "description": "Search radius in miles. Used to filter users within this distance of London. \n A range of 0 miles returns just users listed as living in London",
-            "required": true,
+            "required": false,
+            "default":0,
             "type": "number"
           }
         ],
@@ -38,6 +39,41 @@
           },
           "404": {
             "description": "Request for users invalid"
+          },
+          "500": {
+            "description": "Internal error"
+          }
+        }
+      }
+    },
+    "/bristol_users/{range}": {
+      "get": {
+        "tags": [
+          "user_distance"
+        ],
+        "summary": "Get users in Bristol - Used for testing swagger 404 exception",
+        "description": "Request all users from the bptds test app API that are listed as living in Bristol, or whose current location is within 50 miles of Bristol.",
+        "operationId": "getBristolUsers",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "range \n(miles)",
+            "description": "Search radius in miles. Used to filter users within this distance of Bristol. \n A range of 0 miles returns just users listed as living in Bristol",
+            "required": false,
+            "default":0,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Number of users in the requested city"
+          },
+          "404": {
+            "description": "No users found in requested city"
           },
           "500": {
             "description": "Internal error"

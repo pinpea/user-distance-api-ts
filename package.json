@@ -8,8 +8,9 @@
     "build": "tsc",
     "tsc": "tsc",
     "dev": "concurrently --kill-others \"tsc -w\" \"nodemon dist/server.js\"",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest --verbose",
+    "test:watch": "jest --watch",
+    "clear-cache": "jest --clearCache"
   },
   "keywords": [
     "typescript",
