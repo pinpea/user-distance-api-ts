@@ -13,9 +13,15 @@ http://localhost:3100/london_users/
 http://localhost:3100/london_users/{range}
 ```
 
-
 ## Running this API locally
 
+### Requirements
+
+This project requires on Node.js (tested using version 14.4.0) and the node package manager, npm (tested using 6.14.5). Installation instructions for your system can be found [here](https://nodejs.org/en/download/current/). Set-up instructions using Docker have also been provided below.
+
+### Local setup
+
+- Install Node.js and npm
 - Clone this repository
 - Run the following commands from within the cloned repository:
 
