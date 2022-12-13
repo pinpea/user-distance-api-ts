@@ -24,7 +24,7 @@
     "@types/node": "^12.12.31",
     "axios": "^0.19.2",
     "body-parser": "^1.18.3",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "swagger-ui-express": "^4.1.4",
     "typescript": "^3.9.5"
   },
